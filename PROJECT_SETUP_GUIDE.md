@@ -17,7 +17,7 @@ Purpose: Ensure all requirements are clear and documented before development
    | ID | Assumption | Impact if Wrong | Status | Clarified By |
    |----|------------|-----------------|--------|--------------|
    | A001 | Users login with email only | High | Pending | - |
-   | A002 | Max 10k records per table | Medium | Pending | - |
+   | A002 | How many records per table | Medium | Pending | - |
    | A003 | English and Japanese only | Low | Confirmed | PM |
    
    Unclear Points Document:
