@@ -3,7 +3,7 @@ import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../store/authStore'
 import { authService } from '../services/authService'
-import { ThemeToggle, LanguageSwitcher } from '../components'
+import { ThemeToggle, LanguageSwitcher, Dialog } from '../components'
 
 const menuItems = [
   { id: 1, label: 'table', path: '/dashboard/table1' },
@@ -18,6 +18,11 @@ export const DashboardPage = () => {
   const location = useLocation()
   const { user, logout } = useAuthStore()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false)
+
+  const handleLogoutClick = () => {
+    setIsLogoutDialogOpen(true)
+  }
 
   const handleLogout = () => {
     authService.logout()
@@ -55,7 +60,7 @@ export const DashboardPage = () => {
               {t('welcome')}, {user?.username}
             </span>
             <button
-              onClick={handleLogout}
+              onClick={handleLogoutClick}
               className="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"
             >
               {t('logout')}
@@ -94,6 +99,28 @@ export const DashboardPage = () => {
           <Outlet />
         </main>
       </div>
+
+      {/* Logout Confirmation Dialog */}
+      <Dialog
+        isOpen={isLogoutDialogOpen}
+        onClose={() => setIsLogoutDialogOpen(false)}
+        title={t('confirmLogout')}
+        size="sm"
+        actions={[
+          {
+            label: t('cancel'),
+            onClick: () => setIsLogoutDialogOpen(false),
+            variant: 'secondary',
+          },
+          {
+            label: t('logout'),
+            onClick: handleLogout,
+            variant: 'danger',
+          },
+        ]}
+      >
+        <p className="text-gray-600 dark:text-gray-400">{t('logoutMessage')}</p>
+      </Dialog>
     </div>
   )
 }

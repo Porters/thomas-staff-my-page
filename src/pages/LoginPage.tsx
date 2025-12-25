@@ -1,5 +1,5 @@
 ﻿import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -153,9 +153,9 @@ export const LoginPage = () => {
                 >
                   {loginMutation.isPending ? `${t('loading')}` : t('login')}
                 </Button>
-                <a href="#" className="text-xs font-medium text-green-600 hover:opacity-80">
+                <Link to="/forgot-password" className="text-xs font-medium text-green-600 hover:opacity-80">
                   {t('forgotPassword')}
-                </a>
+                </Link>
               </div>
             </form>
           ) : (
