@@ -15,6 +15,7 @@ const ForgotPasswordPage = lazy(() =>
   import('./pages/ForgotPasswordPage').then((m) => ({ default: m.ForgotPasswordPage }))
 )
 
+// Query client configuration
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

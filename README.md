@@ -1,5 +1,7 @@
 # Staff My Page
 
+## Development Branch - Testing CI/CD
+
 A modern staff management application built with React, TypeScript, Vite, and Tailwind CSS.
 
 ## Tech Stack
@@ -56,11 +58,13 @@ src/
 
 1. Clone the repository
 2. Install dependencies:
+
    ```bash
    yarn
    ```
 
 3. Create `.env` file from `.env.example`:
+
    ```bash
    cp .env.example .env
    ```
@@ -70,6 +74,7 @@ src/
 ### Development
 
 Start the development server:
+
 ```bash
 yarn dev
 ```
@@ -79,11 +84,13 @@ The application will be available at `http://localhost:5173`
 ### Build
 
 Build for production:
+
 ```bash
 yarn build
 ```
 
 Preview production build:
+
 ```bash
 yarn preview
 ```
@@ -91,16 +98,19 @@ yarn preview
 ### Linting & Formatting
 
 Run ESLint:
+
 ```bash
 yarn lint
 ```
 
 Fix ESLint issues:
+
 ```bash
 yarn lint:fix
 ```
 
 Format code with Prettier:
+
 ```bash
 yarn format
 ```
@@ -117,8 +127,9 @@ yarn format
 ## Git Hooks
 
 The project uses Husky for git hooks:
+
 - **pre-commit**: Runs lint-staged to check and fix code before committing
 
-
+```
 
 ```
