@@ -1,14 +1,14 @@
-import { Input, Button, Alert } from '@/components';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import React from 'react';
+import { Input, Button, Alert } from '@/components'
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import React from 'react'
 
 interface Props {
-  onSubmit: (data: any) => void;
-  registerEmail: any;
-  emailErrors: any;
-  emailMutation: any;
-  handleEmailSubmit: any;
+  onSubmit: (data: any) => void
+  registerEmail: any
+  emailErrors: any
+  emailMutation: any
+  handleEmailSubmit: any
 }
 
 export const ForgotPasswordEmailForm: React.FC<Props> = ({
@@ -18,12 +18,10 @@ export const ForgotPasswordEmailForm: React.FC<Props> = ({
   emailMutation,
   handleEmailSubmit,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <form onSubmit={handleEmailSubmit(onSubmit)} className="flex flex-col gap-6">
-      <p className="text-sm text-gray-600 dark:text-gray-400">
-        {t('forgotPasswordInstruction')}
-      </p>
+      <p className="text-sm text-gray-600 dark:text-gray-400">{t('forgotPasswordInstruction')}</p>
       <Input
         label={t('email')}
         type="email"
@@ -37,11 +35,7 @@ export const ForgotPasswordEmailForm: React.FC<Props> = ({
         error={emailErrors.email?.message}
         placeholder={t('emailPlaceholder')}
       />
-      {emailMutation.isError && (
-        <Alert variant="error">
-          {t('emailNotFound')}
-        </Alert>
-      )}
+      {emailMutation.isError && <Alert variant="error">{t('emailNotFound')}</Alert>}
       <div className="flex flex-col gap-4">
         <Button
           type="submit"
@@ -59,5 +53,5 @@ export const ForgotPasswordEmailForm: React.FC<Props> = ({
         </Link>
       </div>
     </form>
-  );
+  )
 }

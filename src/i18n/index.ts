@@ -36,7 +36,7 @@ const resources = {
       // Dashboard
       dashboard: 'Dashboard',
       staffManagement: 'Staff my page',
-        otpInstruction: 'Please input the OTP code that has been sent to your email.',
+      otpInstruction: 'Please input the OTP code that has been sent to your email.',
       table: 'Table',
       form: 'Form',
       dynamicForm: 'Dynamic Form',
@@ -87,7 +87,8 @@ const resources = {
       logoutMessage: 'Are you sure you want to logout?',
 
       // Forgot Password
-      forgotPasswordInstruction: 'Enter your email address and we will send you a code to reset your password.',
+      forgotPasswordInstruction:
+        'Enter your email address and we will send you a code to reset your password.',
       sendResetLink: 'Send Reset Code',
       backToLogin: 'Back to Login',
       emailNotFound: 'Email address not found',
@@ -144,7 +145,7 @@ const resources = {
       // Dashboard
       dashboard: 'ダッシュボード',
       staffManagement: 'スタッフ管理',
-        otpInstruction: 'メールに送信されたOTPコードを入力してください。',
+      otpInstruction: 'メールに送信されたOTPコードを入力してください。',
       table: 'テーブル',
       form: 'フォーム',
       dynamicForm: '動的フォーム',
@@ -193,7 +194,8 @@ const resources = {
       cannotUndo: 'この操作は元に戻せません',
 
       // Forgot Password
-      forgotPasswordInstruction: 'メールアドレスを入力してください。パスワードリセット用のコードを送信します。',
+      forgotPasswordInstruction:
+        'メールアドレスを入力してください。パスワードリセット用のコードを送信します。',
       sendResetLink: 'リセットコードを送信',
       backToLogin: 'ログインに戻る',
       emailNotFound: 'メールアドレスが見つかりません',

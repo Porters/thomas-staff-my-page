@@ -1,24 +1,24 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface CircularCountdownProps {
-  countdown: number;
-  maxTime?: number;
+  countdown: number
+  maxTime?: number
 }
 
-export const CircularCountdown: React.FC<CircularCountdownProps> = ({ 
-  countdown, 
-  maxTime = 60 
+export const CircularCountdown: React.FC<CircularCountdownProps> = ({
+  countdown,
+  maxTime = 60,
 }) => {
-  const { t } = useTranslation();
-  const progress = countdown / maxTime;
-  const circumference = 2 * Math.PI * 26;
-  const strokeDashoffset = -circumference * (1 - progress);
+  const { t } = useTranslation()
+  const progress = countdown / maxTime
+  const circumference = 2 * Math.PI * 26
+  const strokeDashoffset = -circumference * (1 - progress)
 
   return (
     <div className="flex items-center justify-center gap-3">
-      <p 
-        className="text-black dark:text-black" 
+      <p
+        className="text-black dark:text-black"
         style={{ fontSize: '14px', fontWeight: 400, lineHeight: '150%' }}
       >
         {t('expiresIn')}
@@ -26,14 +26,7 @@ export const CircularCountdown: React.FC<CircularCountdownProps> = ({
       <div className="relative inline-flex items-center justify-center">
         <svg className="w-16 h-16 transform -rotate-90">
           {/* Background circle */}
-          <circle
-            cx="32"
-            cy="32"
-            r="26"
-            stroke="#D8D9DB"
-            strokeWidth="5"
-            fill="none"
-          />
+          <circle cx="32" cy="32" r="26" stroke="#D8D9DB" strokeWidth="5" fill="none" />
           {/* Progress circle */}
           <circle
             cx="32"
@@ -55,5 +48,5 @@ export const CircularCountdown: React.FC<CircularCountdownProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

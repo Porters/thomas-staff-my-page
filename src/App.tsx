@@ -5,11 +5,15 @@ import { useAuthStore } from './store/authStore'
 import { Spinner } from './components'
 
 // Lazy load pages for better performance
-const LoginPage = lazy(() => import('./pages/LoginPage').then(m => ({ default: m.LoginPage })))
-const DashboardPage = lazy(() => import('./pages/DashboardPage').then(m => ({ default: m.DashboardPage })))
-const TablePage = lazy(() => import('./pages/TablePage').then(m => ({ default: m.TablePage })))
-const FormPage = lazy(() => import('./pages/FormPage').then(m => ({ default: m.FormPage })))
-const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage').then(m => ({ default: m.ForgotPasswordPage })))
+const LoginPage = lazy(() => import('./pages/LoginPage').then((m) => ({ default: m.LoginPage })))
+const DashboardPage = lazy(() =>
+  import('./pages/DashboardPage').then((m) => ({ default: m.DashboardPage }))
+)
+const TablePage = lazy(() => import('./pages/TablePage').then((m) => ({ default: m.TablePage })))
+const FormPage = lazy(() => import('./pages/FormPage').then((m) => ({ default: m.FormPage })))
+const ForgotPasswordPage = lazy(() =>
+  import('./pages/ForgotPasswordPage').then((m) => ({ default: m.ForgotPasswordPage }))
+)
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,7 +33,13 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><Spinner /></div>}>
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center min-h-screen">
+              <Spinner />
+            </div>
+          }
+        >
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />

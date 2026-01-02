@@ -1,15 +1,15 @@
-import { Input, Button, Alert } from '@/components';
-import { useTranslation } from 'react-i18next';
-import React from 'react';
+import { Input, Button, Alert } from '@/components'
+import { useTranslation } from 'react-i18next'
+import React from 'react'
 
 interface Props {
-  onSubmit: (data: any) => void;
-  registerOtp: any;
-  otpErrors: any;
-  otpMutation: any;
-  handleOtpSubmit: any;
-  email: string;
-  setStep: (step: string) => void;
+  onSubmit: (data: any) => void
+  registerOtp: any
+  otpErrors: any
+  otpMutation: any
+  handleOtpSubmit: any
+  email: string
+  setStep: (step: string) => void
 }
 
 export const ForgotPasswordOtpForm: React.FC<Props> = ({
@@ -21,7 +21,7 @@ export const ForgotPasswordOtpForm: React.FC<Props> = ({
   email,
   setStep,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <form onSubmit={handleOtpSubmit(onSubmit)} className="flex flex-col gap-6">
       <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -38,11 +38,7 @@ export const ForgotPasswordOtpForm: React.FC<Props> = ({
         placeholder={t('enterOtp')}
         maxLength={6}
       />
-      {otpMutation.isError && (
-        <Alert variant="error">
-          {t('invalidOtp')}
-        </Alert>
-      )}
+      {otpMutation.isError && <Alert variant="error">{t('invalidOtp')}</Alert>}
       <div className="flex gap-4">
         <Button
           variant="secondary"
@@ -57,5 +53,5 @@ export const ForgotPasswordOtpForm: React.FC<Props> = ({
         </Button>
       </div>
     </form>
-  );
+  )
 }

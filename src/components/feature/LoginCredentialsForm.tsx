@@ -1,16 +1,16 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { Input } from '../common/Input';
-import { Button } from '../common/Button';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { Input } from '../common/Input'
+import { Button } from '../common/Button'
 
 interface LoginCredentialsFormProps {
-  handleLoginSubmit: any;
-  onLoginSubmit: any;
-  registerLogin: any;
-  loginErrors: any;
-  loginMutation: any;
-  triggerLogin: () => void;
+  handleLoginSubmit: any
+  onLoginSubmit: any
+  registerLogin: any
+  loginErrors: any
+  loginMutation: any
+  triggerLogin: () => void
 }
 
 export const LoginCredentialsForm: React.FC<LoginCredentialsFormProps> = ({
@@ -21,7 +21,7 @@ export const LoginCredentialsForm: React.FC<LoginCredentialsFormProps> = ({
   loginMutation,
   triggerLogin,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <form onSubmit={handleLoginSubmit(onLoginSubmit)} className="flex flex-col gap-6">
@@ -52,13 +52,10 @@ export const LoginCredentialsForm: React.FC<LoginCredentialsFormProps> = ({
         >
           {loginMutation.isPending ? `${t('loading')}` : t('login')}
         </Button>
-        <Link
-          to="/forgot-password"
-          className="text-xs font-medium text-green-600 hover:opacity-80"
-        >
+        <Link to="/forgot-password" className="text-xs font-medium text-green-600 hover:opacity-80">
           {t('forgotPassword')}
         </Link>
       </div>
     </form>
-  );
-};
+  )
+}

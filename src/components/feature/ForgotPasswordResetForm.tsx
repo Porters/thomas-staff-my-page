@@ -1,14 +1,14 @@
-import { Input, Button, Alert } from '@/components';
-import { useTranslation } from 'react-i18next';
-import React from 'react';
+import { Input, Button, Alert } from '@/components'
+import { useTranslation } from 'react-i18next'
+import React from 'react'
 
 interface Props {
-  onSubmit: (data: any) => void;
-  registerReset: any;
-  resetErrors: any;
-  resetMutation: any;
-  handleResetSubmit: any;
-  password: string;
+  onSubmit: (data: any) => void
+  registerReset: any
+  resetErrors: any
+  resetMutation: any
+  handleResetSubmit: any
+  password: string
 }
 
 export const ForgotPasswordResetForm: React.FC<Props> = ({
@@ -19,12 +19,10 @@ export const ForgotPasswordResetForm: React.FC<Props> = ({
   handleResetSubmit,
   password,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <form onSubmit={handleResetSubmit(onSubmit)} className="flex flex-col gap-6">
-      <p className="text-sm text-gray-600 dark:text-gray-400">
-        {t('enterNewPassword')}
-      </p>
+      <p className="text-sm text-gray-600 dark:text-gray-400">{t('enterNewPassword')}</p>
       <Input
         label={t('newPassword')}
         type="password"
@@ -45,11 +43,7 @@ export const ForgotPasswordResetForm: React.FC<Props> = ({
         })}
         error={resetErrors.confirmPassword?.message}
       />
-      {resetMutation.isError && (
-        <Alert variant="error">
-          {t('resetPasswordError')}
-        </Alert>
-      )}
+      {resetMutation.isError && <Alert variant="error">{t('resetPasswordError')}</Alert>}
       <Button
         type="submit"
         className="w-full"
@@ -59,5 +53,5 @@ export const ForgotPasswordResetForm: React.FC<Props> = ({
         {resetMutation.isPending ? t('loading') : t('resetPassword')}
       </Button>
     </form>
-  );
+  )
 }

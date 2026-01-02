@@ -36,8 +36,43 @@ export default [
       'warn',
       { allowConstantExport: true },
     ],
+    
+    // React Best Practices
     'react/react-in-jsx-scope': 'off',
-    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    'react/prop-types': 'off', // Using TypeScript for type checking
+    'react/jsx-no-target-blank': 'error',
+    'react/jsx-key': ['error', { checkFragmentShorthand: true }],
+    'react/no-array-index-key': 'warn',
+    'react/no-danger': 'warn',
+    'react/self-closing-comp': 'error',
+    'react/jsx-boolean-value': ['error', 'never'],
+    'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never' }],
+    
+    // TypeScript Best Practices
+    '@typescript-eslint/no-unused-vars': ['error', { 
+      argsIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
+      caughtErrorsIgnorePattern: '^_'
+    }],
+    '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'warn',
+    '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+    
+    // General Best Practices
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'no-debugger': 'error',
+    'no-alert': 'warn',
+    'eqeqeq': ['error', 'always', { null: 'ignore' }],
+    'no-var': 'error',
+    'prefer-const': 'error',
+    'prefer-template': 'error',
+    'object-shorthand': 'error',
+    'no-nested-ternary': 'warn',
+    'no-unneeded-ternary': 'error',
+    
+    // Prettier
     'prettier/prettier': 'error',
   },
   settings: {

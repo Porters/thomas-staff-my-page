@@ -25,7 +25,7 @@ export const authService = {
     return response.data
   },
 
-  requestPasswordReset: async (email: string) => {
+  requestPasswordReset: async (_email: string) => {
     // Mock implementation - replace with actual API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
     return { success: true, message: 'OTP sent to email' }
@@ -40,7 +40,7 @@ export const authService = {
     return { success: true, message: 'OTP verified' }
   },
 
-  resetPassword: async (email: string, newPassword: string) => {
+  resetPassword: async (_email: string, _newPassword: string) => {
     // Mock implementation - replace with actual API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
     return { success: true, message: 'Password reset successfully' }

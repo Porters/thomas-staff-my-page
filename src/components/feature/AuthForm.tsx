@@ -1,28 +1,28 @@
-import { useTranslation } from 'react-i18next';
-import React from 'react';
-import { UserTypeToggle } from './UserTypeToggle';
-import { LoginCredentialsForm } from './LoginCredentialsForm';
-import { OtpVerificationForm } from './OtpVerificationForm';
+import { useTranslation } from 'react-i18next'
+import React from 'react'
+import { UserTypeToggle } from './UserTypeToggle'
+import { LoginCredentialsForm } from './LoginCredentialsForm'
+import { OtpVerificationForm } from './OtpVerificationForm'
 
 interface AuthFormProps {
-  step: 'credentials' | 'otp';
-  userType: 'staff' | 'staffingAgency';
-  setUserType: (type: 'staff' | 'staffingAgency') => void;
-  handleLoginSubmit: any;
-  onLoginSubmit: any;
-  registerLogin: any;
-  loginErrors: any;
-  loginMutation: any;
-  triggerLogin: () => void;
-  otp: string[];
-  otpInputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>;
-  handleOtpChange: (index: number, value: string) => void;
-  handleOtpKeyDown: (index: number, e: React.KeyboardEvent<HTMLInputElement>) => void;
-  handleOtpPaste: (e: React.ClipboardEvent) => void;
-  onOtpSubmit: (e: React.FormEvent) => void;
-  otpMutation: any;
-  countdown: number;
-  handleCancelOtp: () => void;
+  step: 'credentials' | 'otp'
+  userType: 'staff' | 'staffingAgency'
+  setUserType: (type: 'staff' | 'staffingAgency') => void
+  handleLoginSubmit: any
+  onLoginSubmit: any
+  registerLogin: any
+  loginErrors: any
+  loginMutation: any
+  triggerLogin: () => void
+  otp: string[]
+  otpInputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>
+  handleOtpChange: (index: number, value: string) => void
+  handleOtpKeyDown: (index: number, e: React.KeyboardEvent<HTMLInputElement>) => void
+  handleOtpPaste: (e: React.ClipboardEvent) => void
+  onOtpSubmit: (e: React.FormEvent) => void
+  otpMutation: any
+  countdown: number
+  handleCancelOtp: () => void
 }
 
 export const AuthForm: React.FC<AuthFormProps> = ({
@@ -45,7 +45,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
   countdown,
   handleCancelOtp,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <div className="w-full max-w-xs md:w-[320px] flex flex-col gap-6 px-4 md:px-0">
       <h2 className="text-base font-bold text-center text-black dark:text-white">
@@ -82,5 +82,5 @@ export const AuthForm: React.FC<AuthFormProps> = ({
         />
       )}
     </div>
-  );
-};
+  )
+}

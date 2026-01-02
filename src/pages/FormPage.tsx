@@ -121,8 +121,22 @@ const SortableFormField = ({ field, control }: FormFieldComponentProps) => {
 export const FormPage = () => {
   const { t } = useTranslation()
   const [formFields, setFormFields] = useState<FormField[]>([
-    { id: '1', type: 'text', label: t('name'), placeholder: t('enterName'), required: true, order: 0 },
-    { id: '2', type: 'text', label: t('email'), placeholder: t('enterEmail'), required: true, order: 1 },
+    {
+      id: '1',
+      type: 'text',
+      label: t('name'),
+      placeholder: t('enterName'),
+      required: true,
+      order: 0,
+    },
+    {
+      id: '2',
+      type: 'text',
+      label: t('email'),
+      placeholder: t('enterEmail'),
+      required: true,
+      order: 1,
+    },
     { id: '3', type: 'date', label: t('startDate'), required: false, order: 2 },
     {
       id: '4',
@@ -169,7 +183,8 @@ export const FormPage = () => {
 
   const onSubmit = (_data: FormData) => {
     // TODO: Handle form submission - send to API
-    alert(t('formSubmitted'))
+    // eslint-disable-next-line no-console
+    console.log(t('formSubmitted'), _data)
   }
 
   return (

@@ -24,7 +24,6 @@ export const LoginPage = () => {
 
   // Countdown timer for OTP
   useEffect(() => {
-    console.log('step', step, 'countdown', countdown)
     if (step === 'otp' && countdown > 0) {
       const timer = setInterval(() => {
         setCountdown((prev) => prev - 1)
@@ -106,7 +105,7 @@ export const LoginPage = () => {
         email: `${data.username}@example.com`,
         role: 'admin',
       }
-      const mockToken = 'mock-token-' + Date.now()
+      const mockToken = `mock-token-${Date.now()}`
       localStorage.setItem('authToken', mockToken)
       return { user: mockUser, token: mockToken }
     },

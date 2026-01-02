@@ -1,16 +1,13 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface UserTypeToggleProps {
-  userType: 'staff' | 'staffingAgency';
-  onUserTypeChange: (type: 'staff' | 'staffingAgency') => void;
+  userType: 'staff' | 'staffingAgency'
+  onUserTypeChange: (type: 'staff' | 'staffingAgency') => void
 }
 
-export const UserTypeToggle: React.FC<UserTypeToggleProps> = ({ 
-  userType, 
-  onUserTypeChange 
-}) => {
-  const { t } = useTranslation();
+export const UserTypeToggle: React.FC<UserTypeToggleProps> = ({ userType, onUserTypeChange }) => {
+  const { t } = useTranslation()
 
   return (
     <div className="p-1 bg-[#F8F9FB] dark:bg-gray-800 rounded-full inline-flex">
@@ -37,5 +34,5 @@ export const UserTypeToggle: React.FC<UserTypeToggleProps> = ({
         {t('staffingAgency')}
       </button>
     </div>
-  );
-};
+  )
+}

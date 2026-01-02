@@ -83,7 +83,11 @@ export const TablePage = () => {
   })
 
   if (isLoading) {
-    return <div className="flex justify-center items-center h-64 text-gray-900 dark:text-white">{t('loading')}</div>
+    return (
+      <div className="flex justify-center items-center h-64 text-gray-900 dark:text-white">
+        {t('loading')}
+      </div>
+    )
   }
 
   return (
@@ -125,7 +129,10 @@ export const TablePage = () => {
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                    <td
+                      key={cell.id}
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -167,7 +174,8 @@ export const TablePage = () => {
                     table.getFilteredRowModel().rows.length
                   )}
                 </span>{' '}
-                {t('of')} <span className="font-medium">{table.getFilteredRowModel().rows.length}</span>{' '}
+                {t('of')}{' '}
+                <span className="font-medium">{table.getFilteredRowModel().rows.length}</span>{' '}
                 {t('results')}
               </p>
             </div>

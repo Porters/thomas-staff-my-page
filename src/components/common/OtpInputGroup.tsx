@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 interface OtpInputGroupProps {
-  otp: string[];
-  otpInputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>;
-  onOtpChange: (index: number, value: string) => void;
-  onOtpKeyDown: (index: number, e: React.KeyboardEvent<HTMLInputElement>) => void;
-  onOtpPaste: (e: React.ClipboardEvent) => void;
+  otp: string[]
+  otpInputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>
+  onOtpChange: (index: number, value: string) => void
+  onOtpKeyDown: (index: number, e: React.KeyboardEvent<HTMLInputElement>) => void
+  onOtpPaste: (e: React.ClipboardEvent) => void
 }
 
 export const OtpInputGroup: React.FC<OtpInputGroupProps> = ({
@@ -20,8 +20,8 @@ export const OtpInputGroup: React.FC<OtpInputGroupProps> = ({
       {otp.map((digit, index) => (
         <input
           key={index}
-          ref={el => {
-            otpInputRefs.current[index] = el;
+          ref={(el) => {
+            otpInputRefs.current[index] = el
           }}
           type="text"
           inputMode="numeric"
@@ -35,5 +35,5 @@ export const OtpInputGroup: React.FC<OtpInputGroupProps> = ({
         />
       ))}
     </div>
-  );
-};
+  )
+}

@@ -1,19 +1,19 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Button } from '../common/Button';
-import { OtpInputGroup } from '../common/OtpInputGroup';
-import { CircularCountdown } from '../common/CircularCountdown';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Button } from '../common/Button'
+import { OtpInputGroup } from '../common/OtpInputGroup'
+import { CircularCountdown } from '../common/CircularCountdown'
 
 interface OtpVerificationFormProps {
-  otp: string[];
-  otpInputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>;
-  handleOtpChange: (index: number, value: string) => void;
-  handleOtpKeyDown: (index: number, e: React.KeyboardEvent<HTMLInputElement>) => void;
-  handleOtpPaste: (e: React.ClipboardEvent) => void;
-  onOtpSubmit: (e: React.FormEvent) => void;
-  otpMutation: any;
-  countdown: number;
-  handleCancelOtp: () => void;
+  otp: string[]
+  otpInputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>
+  handleOtpChange: (index: number, value: string) => void
+  handleOtpKeyDown: (index: number, e: React.KeyboardEvent<HTMLInputElement>) => void
+  handleOtpPaste: (e: React.ClipboardEvent) => void
+  onOtpSubmit: (e: React.FormEvent) => void
+  otpMutation: any
+  countdown: number
+  handleCancelOtp: () => void
 }
 
 export const OtpVerificationForm: React.FC<OtpVerificationFormProps> = ({
@@ -27,7 +27,7 @@ export const OtpVerificationForm: React.FC<OtpVerificationFormProps> = ({
   countdown,
   handleCancelOtp,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <form onSubmit={onOtpSubmit} className="flex flex-col gap-6">
@@ -48,12 +48,7 @@ export const OtpVerificationForm: React.FC<OtpVerificationFormProps> = ({
       )}
 
       <div className="flex gap-4">
-        <Button
-          variant="secondary"
-          onClick={handleCancelOtp}
-          className="flex-1"
-          type="button"
-        >
+        <Button variant="secondary" onClick={handleCancelOtp} className="flex-1" type="button">
           {t('cancel')}
         </Button>
         <Button
@@ -65,5 +60,5 @@ export const OtpVerificationForm: React.FC<OtpVerificationFormProps> = ({
         </Button>
       </div>
     </form>
-  );
-};
+  )
+}

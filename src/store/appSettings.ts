@@ -33,7 +33,6 @@ export const useAppSettings = create<AppSettingsState>((set) => ({
 
   toggleTheme: () =>
     set((state) => {
-      console.log('Toggling theme')
       const newTheme = state.theme === 'light' ? 'dark' : 'light'
       storage.set(STORAGE_KEYS.THEME, newTheme)
       if (newTheme === 'dark') {
