@@ -12,11 +12,6 @@ permissions:
   id-token: write
   contents: read
 
-env:
-  AWS_REGION: ap-northeast-1
-  ECR_REGISTRY: 879381259059.dkr.ecr.ap-northeast-1.amazonaws.com
-  ECR_REPOSITORY: staff-my-page
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -31,7 +26,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::879381259059:role/github-oidc-role
           role-session-name: github-staff-my-page
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ap-northeast-1
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -39,7 +34,7 @@ jobs:
       - name: Login to ECR
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.ECR_REGISTRY }}
+          registry: 879381259059.dkr.ecr.ap-northeast-1.amazonaws.com
 
       - name: Set tag name
         run: |
@@ -59,5 +54,5 @@ jobs:
             VITE_ENABLE_MOCK_API=false
             COMMIT_HASH=${{ github.sha }}
           tags: |
-            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.DOCKER_TAG }}
-            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest-beta
+            879381259059.dkr.ecr.ap-northeast-1.amazonaws.com/staff-my-page:${{ env.DOCKER_TAG }}
+            879381259059.dkr.ecr.ap-northeast-1.amazonaws.com/staff-my-page:latest-beta
