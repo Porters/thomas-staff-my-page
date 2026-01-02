@@ -13,7 +13,6 @@ interface AuthFormProps {
   registerLogin: any
   loginErrors: any
   loginMutation: any
-  triggerLogin: () => void
   otp: string[]
   otpInputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>
   handleOtpChange: (index: number, value: string) => void
@@ -34,7 +33,6 @@ export const AuthForm: React.FC<AuthFormProps> = ({
   registerLogin,
   loginErrors,
   loginMutation,
-  triggerLogin,
   otp,
   otpInputRefs,
   handleOtpChange,
@@ -66,7 +64,6 @@ export const AuthForm: React.FC<AuthFormProps> = ({
           registerLogin={registerLogin}
           loginErrors={loginErrors}
           loginMutation={loginMutation}
-          triggerLogin={triggerLogin}
         />
       ) : (
         <OtpVerificationForm

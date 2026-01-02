@@ -1,14 +1,17 @@
-﻿import { useState, useEffect, useRef } from 'react'
+﻿import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { LanguageSwitcher } from '@/components'
-import { MobileHeader } from '../components/feature/MobileHeader'
-import { AuthForm } from '../components/feature/AuthForm'
-import { useAuthStore } from '../store/authStore'
-import img from '../assets/icon.svg'
-import type { LoginCredentials, OtpVerification } from '../types'
+import { MobileHeader } from '@/components/feature/MobileHeader'
+import { AuthForm } from '@/components/feature/AuthForm'
+import { useAuthStore } from '@/store/authStore'
+import { useOtpInput } from '@/hooks/useOtpInput'
+import { useCountdown } from '@/hooks/useCountdown'
+import { OTP_COUNTDOWN_SECONDS } from '@/utils'
+import img from '@/assets/icon.svg'
+import type { LoginCredentials, OtpVerification } from '@/types'
 
 export const LoginPage = () => {
   const { t } = useTranslation()
@@ -16,21 +19,12 @@ export const LoginPage = () => {
   const { setUser } = useAuthStore()
   const [step, setStep] = useState<'credentials' | 'otp'>('credentials')
   const [username, setUsername] = useState('')
-  const [isLoginSumbitting, setIsLoginSubmitting] = useState(false)
   const [userType, setUserType] = useState<'staff' | 'staffingAgency'>('staffingAgency')
-  const [otp, setOtp] = useState(['', '', '', '', '', ''])
-  const [countdown, setCountdown] = useState(120)
-  const otpInputRefs = useRef<(HTMLInputElement | null)[]>([])
 
-  // Countdown timer for OTP
-  useEffect(() => {
-    if (step === 'otp' && countdown > 0) {
-      const timer = setInterval(() => {
-        setCountdown((prev) => prev - 1)
-      }, 1000)
-      return () => clearInterval(timer)
-    }
-  }, [step, countdown])
+  // Use custom hooks for OTP and countdown
+  const { otp, otpInputRefs, handleOtpChange, handleOtpKeyDown, handleOtpPaste, resetOtp } =
+    useOtpInput()
+  const { countdown, resetCountdown } = useCountdown(OTP_COUNTDOWN_SECONDS)
 
   const {
     register: registerLogin,
@@ -38,59 +32,17 @@ export const LoginPage = () => {
     formState: { errors: loginErrors },
   } = useForm<LoginCredentials>()
 
-  // Removed unused registerOtp, handleOtpSubmit, otpErrors from useForm for OTP
-
-  const handleOtpChange = (index: number, value: string) => {
-    // Only allow digits
-    if (value && !/^\d$/.test(value)) return
-
-    const newOtp = [...otp]
-    newOtp[index] = value
-    setOtp(newOtp)
-
-    // Auto-focus next input
-    if (value && index < 5) {
-      otpInputRefs.current[index + 1]?.focus()
-    }
-  }
-
-  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Handle backspace
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      otpInputRefs.current[index - 1]?.focus()
-    }
-  }
-
-  const handleOtpPaste = (e: React.ClipboardEvent) => {
-    e.preventDefault()
-    const pastedData = e.clipboardData.getData('text').slice(0, 6)
-    if (!/^\d+$/.test(pastedData)) return
-
-    const newOtp = [...otp]
-    pastedData.split('').forEach((char, index) => {
-      if (index < 6) {
-        newOtp[index] = char
-      }
-    })
-    setOtp(newOtp)
-
-    // Focus the next empty input or the last one
-    const nextEmptyIndex = newOtp.findIndex((val) => !val)
-    const focusIndex = nextEmptyIndex === -1 ? 5 : Math.min(nextEmptyIndex, 5)
-    otpInputRefs.current[focusIndex]?.focus()
-  }
-
   const loginMutation = useMutation({
     mutationFn: async (_credentials: LoginCredentials) => {
       await new Promise((resolve) => setTimeout(resolve, 500))
       return { requiresOtp: true }
     },
     onSuccess: (data) => {
-      if (data.requiresOtp && step === 'credentials' && isLoginSumbitting) {
-        setCountdown(120)
-        setOtp(['', '', '', '', '', ''])
+      if (data.requiresOtp) {
+        resetCountdown()
+        resetOtp()
         setStep('otp')
-        // Focus first input after state update
+        // Focus first OTP input
         setTimeout(() => otpInputRefs.current[0]?.focus(), 0)
       }
     },
@@ -122,14 +74,8 @@ export const LoginPage = () => {
 
   const handleCancelOtp = () => {
     setStep('credentials')
-    setCountdown(0)
-    setOtp(['', '', '', '', '', ''])
-    setIsLoginSubmitting(false)
+    resetOtp()
     loginMutation.reset()
-  }
-
-  const triggerLogin = () => {
-    setIsLoginSubmitting(true)
   }
 
   const onOtpSubmit = (e: React.FormEvent) => {
@@ -171,7 +117,6 @@ export const LoginPage = () => {
           registerLogin={registerLogin}
           loginErrors={loginErrors}
           loginMutation={loginMutation}
-          triggerLogin={triggerLogin}
           otp={otp}
           otpInputRefs={otpInputRefs}
           handleOtpChange={handleOtpChange}

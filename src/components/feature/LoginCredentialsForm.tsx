@@ -10,7 +10,6 @@ interface LoginCredentialsFormProps {
   registerLogin: any
   loginErrors: any
   loginMutation: any
-  triggerLogin: () => void
 }
 
 export const LoginCredentialsForm: React.FC<LoginCredentialsFormProps> = ({
@@ -19,7 +18,6 @@ export const LoginCredentialsForm: React.FC<LoginCredentialsFormProps> = ({
   registerLogin,
   loginErrors,
   loginMutation,
-  triggerLogin,
 }) => {
   const { t } = useTranslation()
 
@@ -48,7 +46,6 @@ export const LoginCredentialsForm: React.FC<LoginCredentialsFormProps> = ({
           className="w-full"
           style={{ color: 'white' }}
           disabled={loginMutation.isPending}
-          onClick={triggerLogin}
         >
           {loginMutation.isPending ? `${t('loading')}` : t('login')}
         </Button>
