@@ -1,4 +1,4 @@
-import { useAppSettings } from '../store/appSettings'
+import { useAppSettings } from '@/store/appSettings'
 
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useAppSettings()

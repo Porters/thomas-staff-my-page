@@ -1,5 +1,6 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import { storage, STORAGE_KEYS } from '@/utils'
 
 const resources = {
   en: {
@@ -35,6 +36,7 @@ const resources = {
       // Dashboard
       dashboard: 'Dashboard',
       staffManagement: 'Staff my page',
+        otpInstruction: 'Please input the OTP code that has been sent to your email.',
       table: 'Table',
       form: 'Form',
       dynamicForm: 'Dynamic Form',
@@ -49,8 +51,20 @@ const resources = {
       status: 'Status',
       notes: 'Notes',
       required: 'This field is required',
+      isRequired: 'is required',
+      enterName: 'Enter name',
+      enterEmail: 'Enter email',
+      enterNotes: 'Enter notes',
+      selectOption: 'Select...',
+      it: 'IT',
+      hr: 'HR',
+      finance: 'Finance',
+      dragAndDropInstruction: 'Drag and drop fields to reorder them',
+      expiresIn: 'Expires in',
 
       // Table
+      dataTable: 'Data Table',
+      id: 'ID',
       showing: 'Showing',
       to: 'to',
       of: 'of',
@@ -84,6 +98,7 @@ const resources = {
       back: 'Back',
       enterNewPassword: 'Enter your new password',
       newPassword: 'New Password',
+      confirmPassword: 'Confirm Password',
       passwordMinLength: 'Password must be at least 8 characters',
       passwordsDoNotMatch: 'Passwords do not match',
       resetPassword: 'Reset Password',
@@ -129,6 +144,7 @@ const resources = {
       // Dashboard
       dashboard: 'ダッシュボード',
       staffManagement: 'スタッフ管理',
+        otpInstruction: 'メールに送信されたOTPコードを入力してください。',
       table: 'テーブル',
       form: 'フォーム',
       dynamicForm: '動的フォーム',
@@ -143,8 +159,20 @@ const resources = {
       status: 'ステータス',
       notes: '備考',
       required: 'この項目は必須です',
+      isRequired: 'は必須です',
+      enterName: '名前を入力',
+      enterEmail: 'メールアドレスを入力',
+      enterNotes: '備考を入力',
+      selectOption: '選択してください',
+      it: 'IT',
+      hr: '人事',
+      finance: '財務',
+      dragAndDropInstruction: 'フィールドをドラッグ&ドロップして並び替えます',
+      expiresIn: '有効期限',
 
       // Table
+      dataTable: 'データテーブル',
+      id: 'ID',
       showing: '表示中',
       to: 'から',
       of: '/',
@@ -176,6 +204,7 @@ const resources = {
       back: '戻る',
       enterNewPassword: '新しいパスワードを入力してください',
       newPassword: '新しいパスワード',
+      confirmPassword: '確認用パスワード',
       passwordMinLength: 'パスワードは8文字以上である必要があります',
       passwordsDoNotMatch: 'パスワードが一致しません',
       resetPassword: 'パスワードをリセット',
@@ -189,7 +218,7 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: localStorage.getItem('language') || 'en',
+  lng: storage.get(STORAGE_KEYS.LANGUAGE) || 'en',
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,

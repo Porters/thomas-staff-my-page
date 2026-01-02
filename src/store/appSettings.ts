@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { storage, STORAGE_KEYS } from '@/utils'
 
 type Theme = 'light' | 'dark'
 type Language = 'en' | 'ja'
@@ -12,11 +13,11 @@ interface AppSettingsState {
 }
 
 export const useAppSettings = create<AppSettingsState>((set) => ({
-  theme: (localStorage.getItem('theme') as Theme) || 'light',
-  language: (localStorage.getItem('language') as Language) || 'en',
+  theme: (storage.get(STORAGE_KEYS.THEME) as Theme) || 'light',
+  language: (storage.get(STORAGE_KEYS.LANGUAGE) as Language) || 'en',
 
   setTheme: (theme) => {
-    localStorage.setItem('theme', theme)
+    storage.set(STORAGE_KEYS.THEME, theme)
     if (theme === 'dark') {
       document.documentElement.classList.add('dark')
     } else {
@@ -26,7 +27,7 @@ export const useAppSettings = create<AppSettingsState>((set) => ({
   },
 
   setLanguage: (language) => {
-    localStorage.setItem('language', language)
+    storage.set(STORAGE_KEYS.LANGUAGE, language)
     set({ language })
   },
 
@@ -34,7 +35,7 @@ export const useAppSettings = create<AppSettingsState>((set) => ({
     set((state) => {
       console.log('Toggling theme')
       const newTheme = state.theme === 'light' ? 'dark' : 'light'
-      localStorage.setItem('theme', newTheme)
+      storage.set(STORAGE_KEYS.THEME, newTheme)
       if (newTheme === 'dark') {
         document.documentElement.classList.add('dark')
       } else {

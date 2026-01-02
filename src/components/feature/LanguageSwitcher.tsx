@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAppSettings } from '../store/appSettings'
+import { useAppSettings } from '@/store/appSettings'
 
 export const LanguageSwitcher = () => {
   const { i18n } = useTranslation()

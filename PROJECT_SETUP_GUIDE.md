@@ -970,3 +970,23 @@ ESTIMATE:
 * Environment Setup: 1-2 days
 * Component System: 2-3 weeks
 * Project: 8-10 weeks
+
+404 page, 500 page, error handling
+
+
+post development 
+maintain fix bug 
+1) sentry -> capture FE error 
+2) 500 monitor page -> check downtime 
+3) keter log , BE log -> id user -> query BE API 
+4) user journey 
+
+event tracker 
+<Page id>
+<Button id>
+
+
+query page a -> page b -> an button c -> page d
+page a -> page b ( 5s) 30s 
+feature 
+

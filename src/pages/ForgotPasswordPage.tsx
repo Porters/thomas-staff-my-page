@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { Input, Button, Alert } from '../components'
+import { MobileHeader } from '../components/feature/MobileHeader'
+import { ForgotPasswordEmailForm } from '../components/feature/ForgotPasswordEmailForm'
+import { ForgotPasswordOtpForm } from '../components/feature/ForgotPasswordOtpForm'
+import { ForgotPasswordResetForm } from '../components/feature/ForgotPasswordResetForm'
+import { ForgotPasswordSuccess } from '../components/feature/ForgotPasswordSuccess'
 import { authService } from '../services/authService'
 
 type ForgotPasswordStep = 'email' | 'otp' | 'reset' | 'success'
@@ -88,8 +92,10 @@ export const ForgotPasswordPage = () => {
   const password = watch('password')
 
   return (
-    <div className="min-h-screen flex">
-      <div className="w-1/2 bg-[#F8F9FB] dark:bg-gray-900 flex items-center justify-center relative transition-colors">
+    <div className="min-h-screen flex flex-col md:flex-row">
+      <MobileHeader />
+      {/* Left side (Logo and Title) for desktop */}
+      <div className="hidden md:flex w-1/2 bg-[#F8F9FB] dark:bg-gray-900 items-center justify-center relative transition-colors">
         <div className="text-center">
           <div className="w-32 h-32 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-6 mx-auto shadow-lg transition-colors">
             <svg
@@ -109,8 +115,8 @@ export const ForgotPasswordPage = () => {
           <h1 className="text-4xl font-bold mb-2">{t('staffManagement')}</h1>
         </div>
       </div>
-
-      <div className="w-1/2 bg-white dark:bg-gray-900 flex items-center justify-center transition-colors relative">
+      {/* Right side (Form) */}
+      <div className="flex-1 w-full md:w-1/2 bg-white dark:bg-gray-900 flex items-center justify-center transition-colors relative">
         <div className="w-[320px] flex flex-col gap-6">
           <h2 className="text-base font-bold text-center text-black dark:text-white">
             {step === 'email' && t('forgotPassword')}
@@ -118,139 +124,37 @@ export const ForgotPasswordPage = () => {
             {step === 'reset' && t('resetPassword')}
             {step === 'success' && t('success')}
           </h2>
-
           {step === 'email' && (
-            <form onSubmit={handleEmailSubmit(onEmailSubmit)} className="flex flex-col gap-6">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t('forgotPasswordInstruction')}
-              </p>
-              <Input
-                label={t('email')}
-                type="email"
-                {...registerEmail('email', {
-                  required: t('required'),
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: t('invalidEmail'),
-                  },
-                })}
-                error={emailErrors.email?.message}
-                placeholder={t('emailPlaceholder')}
-              />
-              {emailMutation.isError && (
-                <Alert variant="error">
-                  {t('emailNotFound')}
-                </Alert>
-              )}
-              <div className="flex flex-col gap-4">
-                <Button
-                  type="submit"
-                  className="w-full"
-                  style={{ color: 'white' }}
-                  disabled={emailMutation.isPending}
-                >
-                  {emailMutation.isPending ? t('loading') : t('sendResetLink')}
-                </Button>
-                <Link
-                  to="/login"
-                  className="text-sm text-center text-blue-600 dark:text-blue-400 hover:opacity-80"
-                >
-                  {t('backToLogin')}
-                </Link>
-              </div>
-            </form>
+            <ForgotPasswordEmailForm
+              onSubmit={onEmailSubmit}
+              registerEmail={registerEmail}
+              emailErrors={emailErrors}
+              emailMutation={emailMutation}
+              handleEmailSubmit={handleEmailSubmit}
+            />
           )}
-
           {step === 'otp' && (
-            <form onSubmit={handleOtpSubmit(onOtpSubmit)} className="flex flex-col gap-6">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t('otpSentTo')} {email}
-              </p>
-              <Input
-                label={t('otp')}
-                {...registerOtp('otp', {
-                  required: t('required'),
-                  minLength: { value: 6, message: t('otpMustBe6Digits') },
-                  maxLength: { value: 6, message: t('otpMustBe6Digits') },
-                })}
-                error={otpErrors.otp?.message}
-                placeholder={t('enterOtp')}
-                maxLength={6}
-              />
-              {otpMutation.isError && (
-                <Alert variant="error">
-                  {t('invalidOtp')}
-                </Alert>
-              )}
-              <div className="flex gap-4">
-                <Button
-                  variant="secondary"
-                  onClick={() => setStep('email')}
-                  className="flex-1"
-                >
-                  {t('back')}
-                </Button>
-                <Button type="submit" className="flex-1" disabled={otpMutation.isPending}>
-                  {otpMutation.isPending ? t('loading') : t('verify')}
-                </Button>
-              </div>
-            </form>
+            <ForgotPasswordOtpForm
+              onSubmit={onOtpSubmit}
+              registerOtp={registerOtp}
+              otpErrors={otpErrors}
+              otpMutation={otpMutation}
+              handleOtpSubmit={handleOtpSubmit}
+              email={email}
+              setStep={setStep}
+            />
           )}
-
           {step === 'reset' && (
-            <form onSubmit={handleResetSubmit(onResetSubmit)} className="flex flex-col gap-6">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t('enterNewPassword')}
-              </p>
-              <Input
-                label={t('newPassword')}
-                type="password"
-                {...registerReset('password', {
-                  required: t('required'),
-                  minLength: { value: 8, message: t('passwordMinLength') },
-                })}
-                error={resetErrors.password?.message}
-              />
-              <Input
-                label={t('confirmPassword')}
-                type="password"
-                {...registerReset('confirmPassword', {
-                  required: t('required'),
-                  validate: (value) => value === password || t('passwordsDoNotMatch'),
-                })}
-                error={resetErrors.confirmPassword?.message}
-              />
-              {resetMutation.isError && (
-                <Alert variant="error">
-                  {t('resetPasswordError')}
-                </Alert>
-              )}
-              <Button
-                type="submit"
-                className="w-full"
-                style={{ color: 'white' }}
-                disabled={resetMutation.isPending}
-              >
-                {resetMutation.isPending ? t('loading') : t('resetPassword')}
-              </Button>
-            </form>
+            <ForgotPasswordResetForm
+              onSubmit={onResetSubmit}
+              registerReset={registerReset}
+              resetErrors={resetErrors}
+              resetMutation={resetMutation}
+              handleResetSubmit={handleResetSubmit}
+              password={password}
+            />
           )}
-
-          {step === 'success' && (
-            <div className="flex flex-col gap-6">
-              <Alert variant="success">
-                {t('passwordResetSuccess')}
-              </Alert>
-              <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-                {t('passwordResetSuccessMessage')}
-              </p>
-              <Link to="/login">
-                <Button className="w-full" style={{ color: 'white' }}>
-                  {t('backToLogin')}
-                </Button>
-              </Link>
-            </div>
-          )}
+          {step === 'success' && <ForgotPasswordSuccess />}
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../store/authStore'
 import { authService } from '../services/authService'
-import { ThemeToggle, LanguageSwitcher, Dialog } from '../components'
+import { ThemeToggle, LanguageSwitcher, Dialog } from '@/components'
 
 const menuItems = [
   { id: 1, label: 'table', path: '/dashboard/table1' },

@@ -1,26 +1,27 @@
 import { api } from './api'
+import { setAuthToken, removeAuthToken, API_ENDPOINTS } from '@/utils'
 import type { LoginCredentials, OtpVerification, AuthResponse } from '../types'
 
 export const authService = {
   login: async (credentials: LoginCredentials) => {
-    const response = await api.post<{ requiresOtp: boolean }>('/auth/login', credentials)
+    const response = await api.post<{ requiresOtp: boolean }>(API_ENDPOINTS.AUTH.LOGIN, credentials)
     return response.data
   },
 
   verifyOtp: async (data: OtpVerification) => {
-    const response = await api.post<AuthResponse>('/auth/verify-otp', data)
+    const response = await api.post<AuthResponse>(API_ENDPOINTS.AUTH.VERIFY_OTP, data)
     if (response.data.token) {
-      localStorage.setItem('authToken', response.data.token)
+      setAuthToken(response.data.token)
     }
     return response.data
   },
 
   logout: () => {
-    localStorage.removeItem('authToken')
+    removeAuthToken()
   },
 
   getCurrentUser: async () => {
-    const response = await api.get<AuthResponse['user']>('/auth/me')
+    const response = await api.get<AuthResponse['user']>(API_ENDPOINTS.AUTH.ME)
     return response.data
   },
 

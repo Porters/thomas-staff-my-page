@@ -9,8 +9,9 @@ import {
   flexRender,
 } from '@tanstack/react-table'
 import type { ColumnDef, SortingState, ColumnFiltersState } from '@tanstack/react-table'
-import { Button, Input } from '../components'
+import { Button, Input } from '@/components'
 import type { TableData } from '../types'
+import { useTranslation } from 'react-i18next'
 
 // Mock data - replace with actual API call
 const fetchTableData = async (): Promise<TableData[]> => {
@@ -30,33 +31,34 @@ const fetchTableData = async (): Promise<TableData[]> => {
   })
 }
 
-const columns: ColumnDef<TableData>[] = [
-  {
-    accessorKey: 'id',
-    header: 'ID',
-  },
-  {
-    accessorKey: 'name',
-    header: 'Name',
-  },
-  {
-    accessorKey: 'email',
-    header: 'Email',
-  },
-  {
-    accessorKey: 'role',
-    header: 'Role',
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-  },
-]
-
 export const TablePage = () => {
+  const { t } = useTranslation()
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState('')
+
+  const columns: ColumnDef<TableData>[] = [
+    {
+      accessorKey: 'id',
+      header: t('id'),
+    },
+    {
+      accessorKey: 'name',
+      header: t('name'),
+    },
+    {
+      accessorKey: 'email',
+      header: t('email'),
+    },
+    {
+      accessorKey: 'role',
+      header: t('role'),
+    },
+    {
+      accessorKey: 'status',
+      header: t('status'),
+    },
+  ]
 
   const { data = [], isLoading } = useQuery({
     queryKey: ['tableData'],
@@ -81,15 +83,15 @@ export const TablePage = () => {
   })
 
   if (isLoading) {
-    return <div className="flex justify-center items-center h-64 text-gray-900 dark:text-white">Loading...</div>
+    return <div className="flex justify-center items-center h-64 text-gray-900 dark:text-white">{t('loading')}</div>
   }
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Data Table</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('dataTable')}</h2>
         <Input
-          placeholder="Search..."
+          placeholder={t('search')}
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
           className="max-w-xs"
@@ -140,24 +142,24 @@ export const TablePage = () => {
               disabled={!table.getCanPreviousPage()}
               variant="secondary"
             >
-              Previous
+              {t('previous')}
             </Button>
             <Button
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
               variant="secondary"
             >
-              Next
+              {t('next')}
             </Button>
           </div>
           <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
               <p className="text-sm text-gray-700 dark:text-gray-300">
-                Showing{' '}
+                {t('showing')}{' '}
                 <span className="font-medium">
                   {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}
                 </span>{' '}
-                to{' '}
+                {t('to')}{' '}
                 <span className="font-medium">
                   {Math.min(
                     (table.getState().pagination.pageIndex + 1) *
@@ -165,8 +167,8 @@ export const TablePage = () => {
                     table.getFilteredRowModel().rows.length
                   )}
                 </span>{' '}
-                of <span className="font-medium">{table.getFilteredRowModel().rows.length}</span>{' '}
-                results
+                {t('of')} <span className="font-medium">{table.getFilteredRowModel().rows.length}</span>{' '}
+                {t('results')}
               </p>
             </div>
             <div className="flex gap-2">
@@ -176,7 +178,7 @@ export const TablePage = () => {
                 variant="secondary"
                 size="sm"
               >
-                First
+                {t('first')}
               </Button>
               <Button
                 onClick={() => table.previousPage()}
@@ -184,7 +186,7 @@ export const TablePage = () => {
                 variant="secondary"
                 size="sm"
               >
-                Previous
+                {t('previous')}
               </Button>
               <Button
                 onClick={() => table.nextPage()}
@@ -192,7 +194,7 @@ export const TablePage = () => {
                 variant="secondary"
                 size="sm"
               >
-                Next
+                {t('next')}
               </Button>
               <Button
                 onClick={() => table.setPageIndex(table.getPageCount() - 1)}
@@ -200,7 +202,7 @@ export const TablePage = () => {
                 variant="secondary"
                 size="sm"
               >
-                Last
+                {t('last')}
               </Button>
             </div>
           </div>

@@ -18,8 +18,9 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Button, Input, DatePicker } from '../components'
+import { Button, Input, DatePicker } from '@/components'
 import type { FormField } from '../types'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   [key: string]: string
@@ -31,6 +32,7 @@ interface FormFieldComponentProps {
 }
 
 const SortableFormField = ({ field, control }: FormFieldComponentProps) => {
+  const { t } = useTranslation()
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: field.id,
   })
@@ -62,7 +64,7 @@ const SortableFormField = ({ field, control }: FormFieldComponentProps) => {
       <Controller
         name={field.id}
         control={control}
-        rules={{ required: field.required ? `${field.label} is required` : false }}
+        rules={{ required: field.required ? `${field.label} ${t('isRequired')}` : false }}
         render={({ field: formField, fieldState }) => {
           if (field.type === 'date') {
             return (
@@ -82,7 +84,7 @@ const SortableFormField = ({ field, control }: FormFieldComponentProps) => {
                 value={formField.value || ''}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
               >
-                <option value="">Select...</option>
+                <option value="">{t('selectOption')}</option>
                 {field.options?.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
@@ -117,18 +119,19 @@ const SortableFormField = ({ field, control }: FormFieldComponentProps) => {
 }
 
 export const FormPage = () => {
+  const { t } = useTranslation()
   const [formFields, setFormFields] = useState<FormField[]>([
-    { id: '1', type: 'text', label: 'Name', placeholder: 'Enter name', required: true, order: 0 },
-    { id: '2', type: 'text', label: 'Email', placeholder: 'Enter email', required: true, order: 1 },
-    { id: '3', type: 'date', label: 'Start Date', required: false, order: 2 },
+    { id: '1', type: 'text', label: t('name'), placeholder: t('enterName'), required: true, order: 0 },
+    { id: '2', type: 'text', label: t('email'), placeholder: t('enterEmail'), required: true, order: 1 },
+    { id: '3', type: 'date', label: t('startDate'), required: false, order: 2 },
     {
       id: '4',
       type: 'select',
-      label: 'Department',
+      label: t('department'),
       options: [
-        { label: 'IT', value: 'it' },
-        { label: 'HR', value: 'hr' },
-        { label: 'Finance', value: 'finance' },
+        { label: t('it'), value: 'it' },
+        { label: t('hr'), value: 'hr' },
+        { label: t('finance'), value: 'finance' },
       ],
       required: false,
       order: 3,
@@ -136,8 +139,8 @@ export const FormPage = () => {
     {
       id: '5',
       type: 'textarea',
-      label: 'Notes',
-      placeholder: 'Enter notes',
+      label: t('notes'),
+      placeholder: t('enterNotes'),
       required: false,
       order: 4,
     },
@@ -166,14 +169,14 @@ export const FormPage = () => {
 
   const onSubmit = (_data: FormData) => {
     // TODO: Handle form submission - send to API
-    alert('Form submitted successfully!')
+    alert(t('formSubmitted'))
   }
 
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Dynamic Form</h2>
-        <p className="text-sm text-gray-600 mt-2">Drag and drop fields to reorder them</p>
+        <h2 className="text-2xl font-bold text-gray-900">{t('dynamicForm')}</h2>
+        <p className="text-sm text-gray-600 mt-2">{t('dragAndDropInstruction')}</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -189,9 +192,9 @@ export const FormPage = () => {
         </DndContext>
 
         <div className="flex gap-4 pt-4">
-          <Button type="submit">Submit</Button>
+          <Button type="submit">{t('submit')}</Button>
           <Button type="button" variant="secondary" onClick={() => reset()}>
-            Reset
+            {t('reset')}
           </Button>
         </div>
       </form>
