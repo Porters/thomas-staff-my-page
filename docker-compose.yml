@@ -1,0 +1,40 @@
+services:
+  # Frontend - Development
+  frontend-dev:
+    image: ${ECR_REGISTRY:-local}/staff-my-page:${DEV_TAG:-dev}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:3000/api
+        VITE_APP_ENV: development
+        VITE_ENABLE_MOCK_API: "true"
+    ports:
+      - "5173:80"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - staff-network
+    restart: unless-stopped
+
+  # Frontend - Production
+  frontend-prod:
+    image: ${ECR_REGISTRY_PROD:-local}/staff-my-page:${PROD_TAG:-prod}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: https://api.staffmypage.com/api
+        VITE_APP_ENV: production
+        VITE_ENABLE_MOCK_API: "false"
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - staff-network
+    restart: unless-stopped
+
+networks:
+  staff-network:
+    driver: bridge

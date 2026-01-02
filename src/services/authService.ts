@@ -31,7 +31,7 @@ export const authService = {
     return { success: true, message: 'OTP sent to email' }
   },
 
-  verifyPasswordResetOtp: async (email: string, otp: string) => {
+  verifyPasswordResetOtp: async (_email: string, otp: string) => {
     // Mock implementation - replace with actual API call
     await new Promise((resolve) => setTimeout(resolve, 500))
     if (otp.length !== 6) {

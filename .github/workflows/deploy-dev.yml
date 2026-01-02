@@ -1,0 +1,127 @@
+name: Deploy to Development
+
+on:
+  push:
+    branches:
+      - develop
+    paths-ignore:
+      - "**.md"
+      - ".gitignore"
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  NODE_VERSION: '20.x'
+  AWS_REGION: ap-northeast-1
+  ECR_REGISTRY: 879381259059.dkr.ecr.ap-northeast-1.amazonaws.com
+  ECR_REPOSITORY: staff-my-page
+
+jobs:
+  # Lint and Test
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run linter
+        run: yarn lint
+
+      - name: Type check
+        run: yarn tsc --noEmit
+
+  # Build and push Docker image
+  build-and-push:
+    needs: quality-check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::879381259059:role/github-oidc-role
+          role-session-name: github-staff-my-page
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to ECR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ECR_REGISTRY }}
+
+      - name: Set Docker tag
+        run: |
+          echo "DOCKER_TAG=dev-${GITHUB_SHA::7}" >> $GITHUB_ENV
+          echo "GitHub SHA: ${{ github.sha }}"
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platform: linux/amd64
+          provenance: false
+          build-args: |
+            VITE_API_BASE_URL=${{ secrets.DEV_API_BASE_URL }}
+            VITE_APP_ENV=development
+            VITE_ENABLE_MOCK_API=false
+            COMMIT_HASH=${{ github.sha }}
+          tags: |
+            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.DOCKER_TAG }}
+            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest-dev
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # Deploy to server
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::879381259059:role/github-oidc-role
+          role-session-name: github-staff-my-page-deploy
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy to development server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          username: ${{ secrets.DEV_SERVER_USERNAME }}
+          key: ${{ secrets.DEV_SERVER_SSH_KEY }}
+          port: ${{ secrets.DEV_SERVER_PORT }}
+          script: |
+            # Login to ECR
+            aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 879381259059.dkr.ecr.ap-northeast-1.amazonaws.com
+            
+            # Pull and restart container
+            cd /opt/staff-my-page
+            docker pull 879381259059.dkr.ecr.ap-northeast-1.amazonaws.com/staff-my-page:latest-dev
+            docker-compose up -d frontend-dev
+            docker image prune -f
+
+      - name: Notify deployment status
+        if: always()
+        run: |
+          echo "Deployment completed with status: ${{ job.status }}"

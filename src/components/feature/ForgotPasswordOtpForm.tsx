@@ -2,6 +2,8 @@ import { Input, Button, Alert } from '@/components'
 import { useTranslation } from 'react-i18next'
 import React from 'react'
 
+type ForgotPasswordStep = 'email' | 'otp' | 'reset' | 'success'
+
 interface Props {
   onSubmit: (data: any) => void
   registerOtp: any
@@ -9,7 +11,7 @@ interface Props {
   otpMutation: any
   handleOtpSubmit: any
   email: string
-  setStep: (step: string) => void
+  setStep: (step: ForgotPasswordStep) => void
 }
 
 export const ForgotPasswordOtpForm: React.FC<Props> = ({

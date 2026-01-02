@@ -6,10 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:dev": "tsc -b && vite build --mode development",
+    "build:prod": "tsc -b && vite build --mode production",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "preview": "vite preview",
+    "preview:dev": "vite preview --mode development",
+    "compose:dev": "docker-compose up --build -d frontend-dev",
+    "compose:prod": "docker-compose up --build -d frontend-prod",
+    "compose:down": "docker-compose down",
     "prepare": "husky"
   },
   "dependencies": {
